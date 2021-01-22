@@ -10,6 +10,16 @@ app.use(cors());
 
 const repositories = [];
 
+function validateRepositoryId(request, response, next) {
+  const { id } = request.params;
+
+  if(!isUuid(id)){
+    return response.status(400).json({ error: 'Invalid repository ID'})
+  }
+
+  return next();
+}
+
 app.post("/repositories", (request, response) => {
   // TODO
   const { title, url, techs } = request.body;
@@ -34,9 +44,9 @@ app.put("/repositories/:id", (request, response) => {
   const { id } = request.params;
   const { title, url, techs } = request.body;
 
-  if(!title || !url || !techs){
+ /* if(!title || !url || !techs){
     return response.status(422).json({ error: 'Empty required field.' });
-  }
+  }*/
 
   const repoIndex = repositories.findIndex(repository => repository.id === id);
 
