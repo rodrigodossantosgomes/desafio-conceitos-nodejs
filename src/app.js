@@ -20,6 +20,8 @@ function validateRepositoryId(request, response, next) {
   return next();
 }
 
+app.use('/repositories/:id', validateRepositoryId);
+
 app.post("/repositories", (request, response) => {
   // TODO
   const { title, url, techs } = request.body;
