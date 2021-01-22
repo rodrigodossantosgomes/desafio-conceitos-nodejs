@@ -34,12 +34,16 @@ app.put("/repositories/:id", (request, response) => {
   const { id } = request.params;
   const { title, url, techs } = request.body;
 
+  if(!title || !url || !techs){
+    return response.status(422).json({ error: 'Empty required field.' });
+  }
+
   const repoIndex = repositories.findIndex(repository => repository.id === id);
 
   if (repoIndex < 0) {
     return response.status(400).json({ error: 'Repository not found.' });
   }
-  //const repository = repositories.find(repository => repository.id === id);
+
   const likes = repositories[repoIndex].likes;
 
   const repository = {
